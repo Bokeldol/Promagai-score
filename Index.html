@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ProMagAI PMO Score</title>
+<style>
+  body { margin: 0; font-family: "Segoe UI", system-ui, -apple-system, sans-serif; background: #FFFFFF; color: #1A2433; }
+  a { color: #0B7DA3; }
+  a:hover { color: #1F3864; }
+  .pma-wrap { width: 100%; max-width: 760px; margin: 0 auto; padding: 0 24px 96px; box-sizing: border-box; }
+  .pma-opt { cursor: pointer; transition: filter 0.1s ease; font-family: inherit; display: block; width: 100%; text-align: left; border-radius: 9px; }
+  .pma-opt:hover { filter: brightness(0.97); }
+  .pma-cta:hover { filter: brightness(1.08); }
+  .pma-self-opt { text-align: left; border-radius: 10px; padding: 14px 18px; cursor: pointer; width: 100%; font-family: inherit; }
+  .pma-q-opt { font-size: 14px; font-weight: 600; border-radius: 9px; padding: 11px 16px; cursor: pointer; }
+  button { font-family: inherit; }
+</style>
+</head>
+<body>
+<div class="pma-wrap">
+
+  <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding: 28px 0 20px;">
+    <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.04em; text-transform: uppercase; color: #0B7DA3;">ProMagAI</div>
+    <a href="#REPLACE-WITH-SAMPLE-REPORT-URL" style="font-size: 13px; font-weight: 600; text-decoration: none; color: #5A6B85;">&larr; See a sample report</a>
+  </div>
+
+  <div id="pma-form">
+    <h1 style="margin: 8px 0 10px; font-size: 32px; line-height: 1.2; color: #1F3864; font-weight: 800;">How solid is your PMO, really?</h1>
+    <p style="margin: 0 0 32px; font-size: 16px; line-height: 1.6; color: #4B5A72;">10 quick questions. No email required to see your score.</p>
+
+    <div style="margin-bottom: 36px;">
+      <div style="font-size: 15px; font-weight: 700; color: #1F3864; margin-bottom: 14px;">First &mdash; before you answer anything below &mdash; which of these sounds most like your PMO today?</div>
+      <div id="pma-self-options" style="display: flex; flex-direction: column; gap: 10px;"></div>
+    </div>
+
+    <div style="height: 1px; background: #E2E8F2; margin: 8px 0 32px;"></div>
+
+    <div id="pma-questions"></div>
+
+    <div style="display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-top: 12px; padding: 20px 0; border-top: 1px solid #E2E8F2;">
+      <button type="button" id="pma-submit" class="pma-cta" style="background: #0B7DA3; color: #FFFFFF; font-weight: 700; font-size: 15px; padding: 14px 32px; border: none; border-radius: 999px; cursor: pointer;">See My Score</button>
+      <div id="pma-progress" style="font-size: 13px; color: #8696AC;">0 of 10 answered</div>
+    </div>
+    <div style="font-size: 12px; color: #9AA8BC; margin-top: 6px;">Unanswered questions count as the lowest score.</div>
+  </div>
+
+  <div id="pma-result" style="display: none; padding-top: 12px;">
+    <div id="pma-compare" style="display: none; background: #EEF2F7; border-radius: 12px; padding: 18px 22px; margin-bottom: 28px; font-size: 14px; line-height: 1.6; color: #273449;"></div>
+
+    <div style="font-size: 13px; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; color: #0B7DA3; margin-bottom: 8px;">Your Score</div>
+    <div style="display: flex; align-items: baseline; gap: 14px; margin-bottom: 6px;">
+      <div id="pma-tier-label" style="font-size: 44px; font-weight: 800; color: #1F3864;"></div>
+      <div id="pma-score-num" style="font-size: 16px; color: #8696AC;"></div>
+    </div>
+
+    <p id="pma-tier-copy" style="margin: 20px 0 32px; font-size: 16px; line-height: 1.7; color: #273449;"></p>
+
+    <div style="background: #FFFFFF; border: 1px solid #E2E8F2; border-radius: 12px; padding: 22px 26px; margin-bottom: 32px;">
+      <div style="font-size: 14px; line-height: 1.6; color: #4B5A72;">A full ProMagAI diagnostic scores <span style="font-weight: 700; color: #1F3864;">13 categories</span> at this depth &mdash; root cause, what&rsquo;s working, what to stop doing, and a step-by-step rollout plan for each. This score only asked 10 yes/no-level questions. Here&rsquo;s what the real thing looks like:</div>
+    </div>
+
+    <div style="display: flex; flex-wrap: wrap; gap: 14px; margin-bottom: 36px;">
+      <a href="#REPLACE-WITH-SAMPLE-REPORT-URL" class="pma-cta" style="display: inline-block; background: #1F3864; color: #FFFFFF; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 999px; text-decoration: none;">See a full sample report</a>
+      <a href="mailto:hello@promagai.com" class="pma-cta" style="display: inline-block; background: #0B7DA3; color: #FFFFFF; font-weight: 700; font-size: 15px; padding: 14px 28px; border-radius: 999px; text-decoration: none;">Get in touch</a>
+    </div>
+
+    <button type="button" id="pma-retake" style="background: none; border: none; color: #8696AC; font-size: 13px; font-weight: 600; cursor: pointer; padding: 0; text-decoration: underline;">Retake the score</button>
+
+    <p style="margin: 40px 0 0; font-size: 12px; color: #9AA8BC;">This 2-minute score is a lightweight self-assessment, not a diagnostic. A real ProMagAI engagement is structured, evidence-checked, and specific to your organization.</p>
+  </div>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var NAVY = "#1F3864", TEAL = "#0B7DA3";
+
+  var TIERS = [
+    { label: "Reactive", min: 0, max: 6, desc: "we mostly respond to whatever's loudest" },
+    { label: "Developing", min: 7, max: 12, desc: "some process exists, but it's inconsistent" },
+    { label: "Managed", min: 13, max: 16, desc: "solid process, occasional gaps" },
+    { label: "Optimized", min: 17, max: 20, desc: "we have this dialed in" }
+  ];
+
+  var TIER_COPY = {
+    Reactive: "Your answers point to a PMO that's mostly reacting — decisions get made by whoever's loudest, documentation is scattered, and it's hard to say with confidence how many projects are currently in trouble. That's not unusual — most organizations start here — but it does mean small problems are probably compounding into bigger ones before anyone notices.",
+    Developing: "Some structure exists — an intake form here, a risk log there — but the pieces aren't connected, and what's written down often doesn't match what's actually happening day to day. This is the stage where real money tends to quietly leak out: not from any one broken process, but from the gaps between them.",
+    Managed: "You've got real process in place and most of it sticks. The gap now usually isn't whether controls exist — it's whether they're catching problems early enough to act on, or just documenting them after the fact. That's typically a sharper, smaller fix than most people expect.",
+    Optimized: "Your answers describe a PMO most organizations aspire to: process that's followed, visibility that's current, and accountability that doesn't depend on any one person. The next-level question isn't whether your PMO works — it's whether it's actually driving better project outcomes, or just running smoothly."
+  };
+
+  var QUESTIONS = [
+    { id: "q1", text: "How are new projects prioritized?", options: [
+      { label: "Scored against clear criteria", points: 2 },
+      { label: "Informally, case by case", points: 1 },
+      { label: "Whoever pushes hardest wins", points: 0 }
+    ]},
+    { id: "q2", text: "How often are project risks reviewed?", options: [
+      { label: "On a set cadence", points: 2 },
+      { label: "Occasionally, when something comes up", points: 1 },
+      { label: "They're not really tracked", points: 0 }
+    ]},
+    { id: "q3", text: "Where do project documents and status live?", options: [
+      { label: "One consistent system", points: 2 },
+      { label: "A few places, mostly findable", points: 1 },
+      { label: "Scattered across tools and inboxes", points: 0 }
+    ]},
+    { id: "q4", text: "How current is your budget-vs-actual tracking?", options: [
+      { label: "Real time", points: 2 },
+      { label: "Reconciled monthly", points: 1 },
+      { label: "Mostly after the fact", points: 0 }
+    ]},
+    { id: "q5", text: "When a status report says “on track,” how often is that actually true?", options: [
+      { label: "Almost always", points: 2 },
+      { label: "Usually, with exceptions", points: 1 },
+      { label: "Hard to say", points: 0 }
+    ]},
+    { id: "q6", text: "When a vendor underperforms, what happens?", options: [
+      { label: "Clear escalation path", points: 2 },
+      { label: "Depends who you ask", points: 1 },
+      { label: "Not sure / nothing formal", points: 0 }
+    ]},
+    { id: "q7", text: "After a project closes, are lessons learned captured anywhere findable?", options: [
+      { label: "Yes, consistently", points: 2 },
+      { label: "Sometimes", points: 1 },
+      { label: "Rarely", points: 0 }
+    ]},
+    { id: "q8", text: "How engaged are executive sponsors in active project decisions?", options: [
+      { label: "Actively involved", points: 2 },
+      { label: "Engaged occasionally", points: 1 },
+      { label: "Mostly just receive updates", points: 0 }
+    ]},
+    { id: "q9", text: "Right now, could you say how many active projects are over budget or behind schedule?", options: [
+      { label: "Yes, immediately", points: 2 },
+      { label: "I'd have to check", points: 1 },
+      { label: "No idea", points: 0 }
+    ]},
+    { id: "q10", text: "If your PMO lead left tomorrow, what happens?", options: [
+      { label: "Things keep running", points: 2 },
+      { label: "Some disruption, but survivable", points: 1 },
+      { label: "Things fall apart", points: 0 }
+    ]}
+  ];
+
+  var state = { selfRating: null, answers: {} };
+
+  var selfOptionsEl = document.getElementById("pma-self-options");
+  var questionsEl = document.getElementById("pma-questions");
+  var progressEl = document.getElementById("pma-progress");
+  var submitBtn = document.getElementById("pma-submit");
+  var retakeBtn = document.getElementById("pma-retake");
+  var formEl = document.getElementById("pma-form");
+  var resultEl = document.getElementById("pma-result");
+  var compareEl = document.getElementById("pma-compare");
+  var tierLabelEl = document.getElementById("pma-tier-label");
+  var scoreNumEl = document.getElementById("pma-score-num");
+  var tierCopyEl = document.getElementById("pma-tier-copy");
+
+  function renderSelfOptions() {
+    selfOptionsEl.innerHTML = "";
+    TIERS.forEach(function (t, idx) {
+      var sel = state.selfRating === idx;
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "pma-self-opt";
+      btn.setAttribute("aria-pressed", sel ? "true" : "false");
+      btn.style.border = "1.5px solid " + (sel ? NAVY : "#D7E0EC");
+      btn.style.background = sel ? NAVY : "#FFFFFF";
+      btn.innerHTML =
+        '<div style="font-weight:700;font-size:14px;color:' + (sel ? "#FFFFFF" : NAVY) + ';">' + t.label + '</div>' +
+        '<div style="font-size:13px;margin-top:2px;color:' + (sel ? "#C3D5EA" : "#8696AC") + ';">' + t.desc + '</div>';
+      btn.addEventListener("click", function () {
+        state.selfRating = idx;
+        renderSelfOptions();
+      });
+      selfOptionsEl.appendChild(btn);
+    });
+  }
+
+  function renderQuestions() {
+    questionsEl.innerHTML = "";
+    QUESTIONS.forEach(function (q) {
+      var qWrap = document.createElement("div");
+      qWrap.style.marginBottom = "28px";
+      var qTitle = document.createElement("div");
+      qTitle.style.cssText = "font-size:15px;font-weight:700;color:" + NAVY + ";margin-bottom:12px;";
+      qTitle.textContent = q.text;
+      qWrap.appendChild(qTitle);
+
+      var optWrap = document.createElement("div");
+      optWrap.style.cssText = "display:flex;flex-direction:column;gap:8px;";
+      q.options.forEach(function (opt) {
+        var sel = state.answers[q.id] === opt.points;
+        var btn = document.createElement("button");
+        btn.type = "button";
+        btn.className = "pma-q-opt";
+        btn.setAttribute("aria-pressed", sel ? "true" : "false");
+        btn.style.border = "1.5px solid " + (sel ? TEAL : "#D7E0EC");
+        btn.style.background = sel ? TEAL : "#FFFFFF";
+        btn.style.color = sel ? "#FFFFFF" : "#273449";
+        btn.textContent = opt.label;
+        btn.addEventListener("click", function () {
+          state.answers[q.id] = opt.points;
+          renderQuestions();
+          updateProgress();
+        });
+        optWrap.appendChild(btn);
+      });
+      qWrap.appendChild(optWrap);
+      questionsEl.appendChild(qWrap);
+    });
+  }
+
+  function updateProgress() {
+    var count = Object.keys(state.answers).filter(function (k) {
+      return state.answers[k] !== undefined && state.answers[k] !== null;
+    }).length;
+    progressEl.textContent = count + " of " + QUESTIONS.length + " answered";
+  }
+
+  function computeTotal() {
+    var total = 0;
+    QUESTIONS.forEach(function (q) {
+      var v = state.answers[q.id];
+      total += (typeof v === "number") ? v : 0;
+    });
+    return total;
+  }
+
+  function tierForScore(score) {
+    for (var i = 0; i < TIERS.length; i++) {
+      if (score >= TIERS[i].min && score <= TIERS[i].max) { return i; }
+    }
+    return 0;
+  }
+
+  function showResult() {
+    var total = computeTotal();
+    var tierIdx = tierForScore(total);
+    var tier = TIERS[tierIdx];
+
+    tierLabelEl.textContent = tier.label;
+    scoreNumEl.textContent = total + " / 20";
+    tierCopyEl.textContent = TIER_COPY[tier.label];
+
+    if (state.selfRating !== null) {
+      var selfLabel = TIERS[state.selfRating].label;
+      var cmp;
+      if (state.selfRating === tierIdx) {
+        cmp = "Your self-rating and your answers agree — that's a good sign of self-awareness, which is rarer than it sounds.";
+      } else if (state.selfRating > tierIdx) {
+        cmp = "That's a notch below where you rated yourselves — a gap we see constantly, and it's exactly the kind of blind spot a real diagnostic exists to catch.";
+      } else {
+        cmp = "That's actually stronger than your own rating — you may be more disciplined than you're giving yourselves credit for.";
+      }
+      compareEl.style.display = "block";
+      compareEl.innerHTML =
+        'You rated yourselves <span style="font-weight:700;color:' + NAVY + ';">' + selfLabel + '</span>. ' +
+        'Your answers put you at <span style="font-weight:700;color:' + NAVY + ';">' + tier.label + '</span>. ' + cmp;
+    } else {
+      compareEl.style.display = "none";
+    }
+
+    formEl.style.display = "none";
+    resultEl.style.display = "block";
+    window.scrollTo(0, 0);
+  }
+
+  submitBtn.addEventListener("click", showResult);
+  retakeBtn.addEventListener("click", function () {
+    resultEl.style.display = "none";
+    formEl.style.display = "block";
+    window.scrollTo(0, 0);
+  });
+
+  renderSelfOptions();
+  renderQuestions();
+  updateProgress();
+})();
+</script>
+</body>
+</html>
